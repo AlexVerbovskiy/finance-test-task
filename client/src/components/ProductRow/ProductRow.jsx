@@ -56,7 +56,7 @@ const ProductRow = ({
               </div>
               <div>
                 <button
-                  className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-[1px] px-4 border border-gray-400 rounded shadow"
+                  className="start bg-white hover:bg-gray-100 text-gray-800 font-semibold py-[1px] px-4 border border-gray-400 rounded shadow"
                   onClick={handleStartClick}
                 >
                   Start
@@ -66,7 +66,7 @@ const ProductRow = ({
           </td>
         : <td className="text-center">
             <button
-              className="bg-white hover:bg-gray-100 text-gray-800 font-semibold py-[1px] px-4 border border-gray-400 rounded shadow"
+              className="stop bg-white hover:bg-gray-100 text-gray-800 font-semibold py-[1px] px-4 border border-gray-400 rounded shadow"
               onClick={handleStopClick}
             >
               Stop

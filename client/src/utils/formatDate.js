@@ -1,6 +1,8 @@
+const localTime = +2;
+
 export const formatDate = (date) => {
     const newDate = new Date(date).getTime();
-    const updatedTIme = new Date(newDate + 2 * 60 * 60 * 1000);
+    const updatedTIme = new Date(newDate + localTime * 60 * 60 * 1000);
     const year = updatedTIme.getFullYear();
     const month = updatedTIme.getMonth() + 1;
     const day = updatedTIme.getDay() + 1;

@@ -1,7 +1,11 @@
 import {
     SET_PRODUCTS,
+    REWRITE_PRODUCT
 } from "../actions";
-import {compareProducts} from "../../utils"
+import {
+    compareProducts,
+    compareProduct
+} from "../../utils"
 
 const initialStore = {
     products: [],
@@ -15,6 +19,30 @@ export const productsReducer = (state = initialStore, action) => {
             return {
                 gettedProducts: [...action.payload],
                 products: [...resComparePrevActual]
+            };
+        }
+        case REWRITE_PRODUCT: {
+            const findedProduct = state.gettedProducts.find(product => product.ticker === action.payload.ticker);
+
+            const gettedProducts = state.gettedProducts.filter(product => product.ticker !== action.payload.ticker);
+            const products = state.products.filter(product => product.ticker !== action.payload.ticker);
+            const resCompare = compareProduct({
+                ...findedProduct
+            }, {
+                ...action.payload
+            });
+
+
+            const newStateGattedProducts = [...gettedProducts, {
+                ...action.payload
+            }];
+            const newStateProducts = [...products, {
+                ...resCompare
+            }];
+
+            return {
+                gettedProducts: newStateGattedProducts,
+                products: newStateProducts
             };
         }
         default:

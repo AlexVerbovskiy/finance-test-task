@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useEffect } from "react";
 import "./App.css";
-import ProductTable from "../ProductTable";
+import AppBody from "../AppBody";
 import Loader from "../Loader";
 import { authorize } from "../../store/actionCreators";
 
@@ -22,7 +22,7 @@ const App = () => {
         <h1 className="text-3xl font-mono text-center font-bold my-4">
           Finance test task by Alex Verbovskiy
         </h1>
-        <ProductTable />
+        <AppBody />
       </div>
     );
 

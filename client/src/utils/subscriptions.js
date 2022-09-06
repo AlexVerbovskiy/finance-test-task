@@ -1,17 +1,22 @@
 import {
-    setProducts
+    setProducts,
+    rewriteProduct
 } from "../store/actionCreators"
 
 export const subscribeTicker = (socket, dispatch, key) => {
-    socket.on("ticker", (message) => dispatch(setProducts(message)));
+
+    const listener = (message) => {
+        dispatch(rewriteProduct(message))
+    }
+
+    socket.on("ticker", listener);
     socket.emit("addTracker", {
-        ticker: key,
-        interval: 1000
+        ...key
     });
 
     const unsubscribe = () => {
-        socket.emit("stop", key);
-        socket.removeAllListeners("ticker");
+        socket.emit("stop", key.ticker);
+        socket.off("ticker", listener);
     }
 
     return unsubscribe;

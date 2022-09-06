@@ -45,18 +45,20 @@ function getQuotes(socket) {
 }
 
 function getQuote(socket, ticker) {
-  const quotes = getTicker(ticker);
-  socket.emit('ticker', quotes);
+  const quote = getTicker(ticker);
+  socket.emit('ticker', quote);
 }
 
 function startTrackTickers(socket) {
   const timers = {};
 
   function startTracker(ticker = null, interval = FETCH_INTERVAL) {
+
     const timer = setInterval(function () {
       if (ticker === null) getQuotes(socket);
       else getQuote(socket, ticker)
     }, interval);
+
     if (ticker)
       timers[ticker] = timer;
     else
@@ -65,8 +67,7 @@ function startTrackTickers(socket) {
 
   function stopTrackTickers(ticker = null) {
     const key = ticker ? ticker : "main"
-    if (ticker === null) clearInterval(timers[key]);
-    else clearInterval(timers[key]);
+    clearInterval(timers[key]);
     delete timers[key];
   }
 

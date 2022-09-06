@@ -2,8 +2,10 @@ import {
     productsReducer
 } from '../reducers';
 import {
-    setProducts
+    setProducts,
+    rewriteProduct
 } from '../actionCreators';
+
 
 const products1 = [{
     "ticker": "GOOGL",
@@ -152,4 +154,29 @@ describe('redux products reducer', () => {
 
         expect(res.products).toEqual([...resCompare2])
     });
+
+    it('should return state.products with zero diff on number keys when product added for first time ', () => {
+
+        const defaultState = {
+            products: [],
+            gettedProducts: []
+        }
+
+        const gettedProducts = products1[0];
+        const res = productsReducer(defaultState, rewriteProduct(gettedProducts));
+        expect(res.products).toEqual([resCompare1[0]]);
+    });
+
+    it('should return state.products with correct diff on number keys when product added not for first time', () => {
+
+        const defaultState = {
+            gettedProducts: [products1[0]],
+            products: [resCompare1[0]]
+        }
+
+        const gettedProducts = products2[0];
+        const res = productsReducer(defaultState, rewriteProduct(gettedProducts));
+        expect(res.products).toEqual([resCompare2[0]])
+    });
+
 });

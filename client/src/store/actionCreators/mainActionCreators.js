@@ -20,20 +20,25 @@ export const setIsAuth = isAuth => ({
 });
 
 export const authorize = (isAuth = true) => {
-    return (dispatch, getState) => {
+    return async (dispatch, getState) => {
 
-        const substituteFetch = async (value) => value;
+        const substituteFetch = async (value) => {
+            return new Promise((resolve, reject) => {
+                setTimeout(() => {
+                    resolve(value);
+                }, 1000)
+            });
+        };
 
         dispatch(setLoading(true));
-        setTimeout(async () => {
-            try {
-                const res = await substituteFetch(isAuth);
-                dispatch(setIsAuth(res));
-            } catch (err) {
-                dispatch(setError(err.message));
-            } finally {
-                dispatch(setLoading(false));
-            }
-        }, 1000)
+
+        try {
+            const res = await substituteFetch(isAuth);
+            dispatch(setIsAuth(res));
+        } catch (err) {
+            dispatch(setError(err.message));
+        } finally {
+            dispatch(setLoading(false));
+        }
     }
 }

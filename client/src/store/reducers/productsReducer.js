@@ -11,9 +11,8 @@ const initialStore = {
 export const productsReducer = (state = initialStore, action) => {
     switch (action.type) {
         case SET_PRODUCTS: {
-            const resComparePrevActual = compareProducts(state.gettedProducts, action.payload)
+            const resComparePrevActual = compareProducts(state.gettedProducts, action.payload);
             return {
-                ...state,
                 gettedProducts: [...action.payload],
                 products: [...resComparePrevActual]
             };

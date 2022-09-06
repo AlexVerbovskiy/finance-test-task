@@ -1,6 +1,8 @@
 export const compareProducts = (prevProducts, actualProducts) => {
     const res = [];
 
+    const diff = (value1, value2) => parseInt((value1 - value2) / value1 * 100);
+
     actualProducts.forEach(actualProduct => {
         const resCompareProduct = {
             "ticker": actualProduct.ticker,
@@ -31,11 +33,11 @@ export const compareProducts = (prevProducts, actualProducts) => {
         prevProducts.forEach(prevProduct => {
             if (prevProduct.ticket !== actualProduct.ticket) return;
 
-            resCompareProduct.price.diff = (actualProduct.price - prevProduct.price) / prevProduct.price;
-            resCompareProduct.price.diff = (actualProduct.change - prevProduct.change) / prevProduct.change;
-            resCompareProduct.price.diff = (actualProduct.change_percent - prevProduct.change_percent) / prevProduct.change_percent;
-            resCompareProduct.price.diff = (actualProduct.dividend - prevProduct.dividend) / prevProduct.dividend;
-            resCompareProduct.price.diff = (actualProduct.yield - prevProduct.yield) / prevProduct.yield;
+            resCompareProduct.price.diff = diff(actualProduct.price, prevProduct.price);
+            resCompareProduct.change.diff = diff(actualProduct.change, prevProduct.change);
+            resCompareProduct.change_percent.diff = diff(actualProduct.change_percent, prevProduct.change_percent);
+            resCompareProduct.dividend.diff = diff(actualProduct.dividend, prevProduct.dividend);
+            resCompareProduct.yield.diff = diff(actualProduct.yield, prevProduct.yield);
         });
 
         res.push({

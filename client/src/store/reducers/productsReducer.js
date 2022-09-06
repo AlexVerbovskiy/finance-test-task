@@ -1,6 +1,6 @@
 import {
     SET_PRODUCTS,
-} from "./actions";
+} from "../actions";
 import {compareProducts} from "../../utils"
 
 const initialStore = {

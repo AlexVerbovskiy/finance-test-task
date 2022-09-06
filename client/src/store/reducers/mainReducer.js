@@ -2,7 +2,7 @@ import {
     SET_LOADING,
     SET_ERROR,
     SET_IS_AUTH
-} from "./actions";
+} from "../actions";
 
 const initialStore = {
     isLoading: false,

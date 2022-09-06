@@ -26,10 +26,9 @@ function utcDate() {
   return new Date(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), now.getUTCHours(), now.getUTCMinutes(), now.getUTCSeconds());
 }
 
-function getQuotes(socket) {
-
-  const quotes = tickers.map(ticker => ({
-    ticker,
+function getTicker(tickerName) {
+  return ({
+    ticker: tickerName,
     exchange: 'NASDAQ',
     price: randomValue(100, 300, 2),
     change: randomValue(0, 200, 2),
@@ -37,24 +36,59 @@ function getQuotes(socket) {
     dividend: randomValue(0, 1, 2),
     yield: randomValue(0, 2, 2),
     last_trade_time: utcDate(),
-  }));
+  })
+}
 
+function getQuotes(socket) {
+  const quotes = tickers.map(ticker => getTicker(ticker));
+  socket.emit('tickers', quotes);
+}
+
+function getQuote(socket, ticker) {
+  const quotes = getTicker(ticker);
   socket.emit('ticker', quotes);
 }
 
-function trackTickers(socket) {
+function startTrackTickers(socket) {
+  const timers = {};
+
+  function startTracker(ticker = null, interval = FETCH_INTERVAL) {
+    const timer = setInterval(function () {
+      if (ticker === null) getQuotes(socket);
+      else getQuote(socket, ticker)
+    }, interval);
+    if (ticker)
+      timers[ticker] = timer;
+    else
+      timers["main"] = timer;
+  }
+
+  function stopTrackTickers(ticker = null) {
+    const key = ticker ? ticker : "main"
+    if (ticker === null) clearInterval(timers[key]);
+    else clearInterval(timers[key]);
+    delete timers[key];
+  }
+
   // run the first time immediately
   getQuotes(socket);
+  startTracker();
 
-  // every N seconds
-  const timer = setInterval(function() {
-    getQuotes(socket);
-  }, FETCH_INTERVAL);
+  socket.on('stop', function (key = null) {
+    stopTrackTickers(key);
+  });
 
-  socket.on('disconnect', function() {
-    clearInterval(timer);
+  socket.on("addTracker", message => {
+    const ticker = message ? message.ticker : null;
+    const interval = message ? message.interval : FETCH_INTERVAL;
+    startTracker(ticker, interval);
+  })
+
+  socket.on('disconnect', function () {
+    Object.keys(timers).forEach((key) => stopTrackTickers(timers[key]))
   });
 }
+
 
 const app = express();
 app.use(cors());
@@ -63,18 +97,16 @@ const server = http.createServer(app);
 const socketServer = io(server, {
   cors: {
     origin: "*",
-    credentials: true
   }
 });
 
-app.get('/', function(req, res) {
+app.get('/', function (req, res) {
   res.sendFile(__dirname + '/index.html');
 });
 
 socketServer.on('connection', (socket) => {
-  console.log("connect")
   socket.on('start', () => {
-    trackTickers(socket);
+    startTrackTickers(socket);
   });
 });
 

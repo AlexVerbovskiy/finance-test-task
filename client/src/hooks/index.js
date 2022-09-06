@@ -1,2 +1,2 @@
 export * from "./useConnectServer";
-export * from "./useSubscribeMainEvent";
+export * from "./useMainSubscription";

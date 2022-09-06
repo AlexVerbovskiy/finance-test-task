@@ -1,6 +1,6 @@
 import ProductCell from "../ProductCell";
 
-const ProductCard = props => {
+const ProductRow = props => {
   return (
     <tr className="border-b">
       {Object.keys(props).map((key, index) => {
@@ -19,4 +19,4 @@ const ProductCard = props => {
   );
 };
 
-export default ProductCard;
+export default ProductRow;

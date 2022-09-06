@@ -16,13 +16,13 @@ const ProductCell = ({ field, fieldKey }) => {
     );
   if (field.diff > 0)
     return (
-      <span className="text-green-400">
+      <span className="text-green-500">
         {field.value}&#x2191;<sup>{field.diff}%</sup>
       </span>
     );
   if (field.diff < 0)
     return (
-      <span className="text-red-400">
+      <span className="text-red-500">
         {field.value}&#x2193;<sub>{field.diff}%</sub>
       </span>
     );

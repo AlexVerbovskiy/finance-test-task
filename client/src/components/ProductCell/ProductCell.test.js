@@ -31,13 +31,13 @@ describe('react product cell component', () => {
         const {
             container
         } = render( <ProductCell field={{value:23, diff:22}} key={"change"}/> )
-        expect(container.querySelector("span").classList.contains("text-green-400")).toBe(true);
+        expect(container.querySelector("span").classList.contains("text-green-500")).toBe(true);
     });
 
     it('should build cell with green span if diff > 0', () => {
         const {
             container
         } = render( <ProductCell field={{value:23, diff:-22}} key={"change"}/> )
-        expect(container.querySelector("span").classList.contains("text-red-400")).toBe(true);
+        expect(container.querySelector("span").classList.contains("text-red-500")).toBe(true);
     });
 });

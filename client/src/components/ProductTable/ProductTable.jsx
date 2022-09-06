@@ -1,5 +1,8 @@
 import ProductRow from "../ProductRow/ProductRow";
 import { compareProducts } from "../../utils";
+import { useConnectServer, useSubscribeMainEvent } from "../../hooks";
+import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const ProductList = () => {
   const headers = [
@@ -12,36 +15,10 @@ const ProductList = () => {
     "Yield",
     "Last trade time"
   ];
-  const products = [
-    {
-      ticker: "GOOGL",
-      exchange: "NASDAQ",
-      price: 240,
-      change: 240,
-      change_percent: 0.2,
-      dividend: 0.4,
-      yield: 1.4,
-      last_trade_time: "2021-04-30T11:53:21.000Z"
-    }
-  ];
+  const products = useSelector(state => state.products.gettedProducts);
 
-  console.log(
-    compareProducts(
-      [
-        {
-          ticker: "GOOGL",
-          exchange: "NASDAQ",
-          price: 237.08,
-          change: 154.38,
-          change_percent: 0.1,
-          dividend: 0.46,
-          yield: 1.18,
-          last_trade_time: "2021-04-30T11:53:21.000Z"
-        }
-      ],
-      products
-    )
-  );
+  const socket = useConnectServer();
+  useSubscribeMainEvent(socket);
 
   return (
     <div className="w-full flex justify-center items-center">

@@ -64,10 +64,11 @@ describe('redux main reducer', () => {
         const {
             calls
         } = dispatch.mock;
-        console.log(calls)
+
         expect(calls.length).toBe(3);
 
         const [startLoading, isAuth, endLoading] = calls;
+        
         expect(startLoading[0].type).toBe("SET_LOADING");
         expect(startLoading[0].payload).toBe(true);
 

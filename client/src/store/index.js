@@ -7,7 +7,7 @@ import thunk from 'redux-thunk';
 import {
     productsReducer,
     mainReducer
-} from 'reducers';
+} from './reducers';
 
 export const store = createStore(combineReducers({
     products: productsReducer,

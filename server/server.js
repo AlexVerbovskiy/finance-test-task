@@ -63,6 +63,7 @@ const server = http.createServer(app);
 const socketServer = io(server, {
   cors: {
     origin: "*",
+    credentials: true
   }
 });
 
@@ -71,6 +72,7 @@ app.get('/', function(req, res) {
 });
 
 socketServer.on('connection', (socket) => {
+  console.log("connect")
   socket.on('start', () => {
     trackTickers(socket);
   });

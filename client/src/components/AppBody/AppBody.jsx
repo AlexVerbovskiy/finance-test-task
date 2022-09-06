@@ -12,7 +12,9 @@ const AppBody = () => {
     hasUnsubscribe
   ] = useMainSubscription();
 
-  const products = useSelector(state => state.products.products);
+  const {products: tempProduct} = useSelector(state => state);
+  const {products} = tempProduct;
+
   const [subscribers, setSubscribers] = useState({});
   const [mainSubscriber, setMainSubscriber] = useState(null);
   const dispatch = useDispatch();
@@ -53,11 +55,8 @@ const AppBody = () => {
   };
 
   const productUnsubscribeClick = key => {
-    console.log(subscribers);
     subscribers[key]();
-    console.log(subscribers);
     delete subscribers[key];
-    console.log(subscribers);
   };
 
   return (

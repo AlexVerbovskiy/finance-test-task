@@ -7,8 +7,8 @@ import { authorize } from "../../store/actionCreators";
 
 const App = () => {
   const dispatch = useDispatch();
-  const isLoading = useSelector(state => state.main.isLoading);
-  const isAuth = useSelector(state => state.main.isAuth);
+  const {main: tempProduct} = useSelector(state => state);
+  const {isLoading, isAuth} = tempProduct;
 
   useEffect(() => {
     dispatch(authorize(true));

@@ -15,7 +15,7 @@ const ProductList = () => {
     "Yield",
     "Last trade time"
   ];
-  const products = useSelector(state => state.products.gettedProducts);
+  const products = useSelector(state => state.products.products);
 
   const socket = useConnectServer();
   useSubscribeMainEvent(socket);

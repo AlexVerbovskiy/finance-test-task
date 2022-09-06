@@ -18,6 +18,7 @@ export const useConnectServer = () => {
         });
 
         setSocket(socket);
+        console.log("call")
     }, []);
     return socket;
 }

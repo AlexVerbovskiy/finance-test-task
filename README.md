@@ -14,11 +14,14 @@ Requirements:
 You can get some ideas how your application may look like on the [Google Finance](https://www.google.com/finance/) page.
 
 As a bonus you can implement (please describe implemented bonus functionality in this file):
-- any additional visual effects to highlight positive or negative changes in the prices
-- the possibility to switch on/off tickers by user
-- the possibility to specify interval time by user
-- the possibility to add/remove ticker from watching group
-- any additional functionality you consider useful
+  Task:
+    Any additional visual effects to highlight positive or negative changes in the prices
+  Description: 
+    Program saves the array with the information that came at the previous time. When the server sends a new array, the function compares the two arrays and returns a new one with objects, where each numeric field is an object with value fields and the difference (the difference is a comparison of the value between the current and previous product. If the difference is less than 0, then it means that the indicator has decreased , if more - then increased.
+  Task:
+    The possibility to switch on/off tickers by user and the possibility to specify interval time by user
+   Description:
+    The user clicks a button that sends the server information about the product the user wants to subscribe to and the time the user wrote in the input. A function is called on the server that creates a new interval that returns data for the selected product after the selected time. Then the object that stores the callbacks to clear the interval is updated. When the user clicks "stop", the unsubscribe function is called. It removes the interval and field with the selected name from the object that stores the unsubscribers. The logic of client subscriptions is the same.
 
 You should use the next technologies:
 - React (preferable with hooks)

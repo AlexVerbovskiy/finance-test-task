@@ -24,7 +24,8 @@ export const useMainSubscription = () => {
     useEffect(() => {
         if (socket && !called) {
             const unsubscribe = subscribeTickers(socket, dispatch);
-            socket.emit("start");
+            if (typeof (socket.emit) === typeof (Function))
+                socket.emit("start");
             setUnsubscribe(() => unsubscribe);
             setCalled(true);
         }

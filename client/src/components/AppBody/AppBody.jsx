@@ -12,13 +12,14 @@ const AppBody = () => {
     hasUnsubscribe
   ] = useMainSubscription();
 
-  const {products: tempProduct} = useSelector(state => state);
-  const {products} = tempProduct;
+  const { products: tempProduct } = useSelector(state => state);
+  const { products } = tempProduct;
 
   const [subscribers, setSubscribers] = useState({});
   const [mainSubscriber, setMainSubscriber] = useState(null);
-  const dispatch = useDispatch();
   const [hasAnyMainSubscriber, setHasAnyMainSubscriber] = useState(false);
+
+  const dispatch = useDispatch();
 
   useEffect(
     () => {
@@ -36,8 +37,10 @@ const AppBody = () => {
       setMainSubscriber(() => null);
       return;
     }
-    const subscriber = subscribeTickers(socket, dispatch, true);
-    setMainSubscriber(() => subscriber);
+    if (socket) {
+      const subscriber = subscribeTickers(socket, dispatch, true);
+      setMainSubscriber(() => subscriber);
+    }
     return;
   };
 
@@ -64,11 +67,13 @@ const AppBody = () => {
       <button onClick={() => mainSubscribeClick()}>
         {hasAnyMainSubscriber ? "Unsubscribe" : "Subscribe"}
       </button>
-      <ProductTable
-        handleSubscribeClick={productSubscribeClick}
-        handleUnsubscribeClick={productUnsubscribeClick}
-        products={products.sort(comparatorSort)}
-      />
+
+      {products.length > 0 &&
+        <ProductTable
+          handleSubscribeClick={productSubscribeClick}
+          handleUnsubscribeClick={productUnsubscribeClick}
+          products={products.sort(comparatorSort)}
+        />}
     </div>
   );
 };

@@ -1,6 +1,4 @@
-import {
-  render,
-} from "@testing-library/react";
+import { render } from "@testing-library/react";
 import React from "react";
 import "@testing-library/jest-dom";
 import ProductRow from "./ProductRow";
@@ -32,78 +30,62 @@ const testProduct = {
 };
 
 describe("react product row component", () => {
-      it("should show nine td and one tr", () => {
+  it("should show nine td and one tr", () => {
+    const sub = jest.fn();
+    const unsub = jest.fn();
 
-            const sub = jest.fn();
-            const unsub = jest.fn();
+    const { container } = render(
+      <ProductRow
+        product={testProduct}
+        handleSubscribeClick={sub}
+        handleUnsubscribeClick={unsub}
+      />
+    );
 
-            const {
-              container
-            } = render( < ProductRow product = {
-                testProduct
-              }
-              handleSubscribeClick = {
-                sub
-              }
-              handleUnsubscribeClick = {
-                unsub
-              }
-              /> );
+    expect(container.querySelectorAll("td").length).toBe(9);
+    expect(container.querySelectorAll("tr").length).toBe(1);
+  });
 
-              expect(container.querySelectorAll("td").length).toBe(9); expect(container.querySelectorAll("tr").length).toBe(1);
-            });
+  it("should show button to start and hide stop by default and if user unsubscribe", () => {
+    const sub = jest.fn();
+    const unsub = jest.fn();
 
-          it("should show button to start and hide stop by default and if user unsubscribe", () => {
+    const { container, getByText } = render(
+      <ProductRow
+        product={testProduct}
+        handleSubscribeClick={sub}
+        handleUnsubscribeClick={unsub}
+      />
+    );
 
-              const sub = jest.fn();
-              const unsub = jest.fn();
+    expect(container.querySelector(".start")).toBeInTheDocument();
+    expect(container.querySelector(".stop")).not.toBeInTheDocument();
+  });
 
-              const {
-                container,
-                getByText
-              } = render( < ProductRow product = {
-                  testProduct
-                }
-                handleSubscribeClick = {
-                  sub
-                }
-                handleUnsubscribeClick = {
-                  unsub
-                }
-                /> );
+  it("should show button to stop and hide to start if user subscribed on tracker", () => {
+    const sub = jest.fn();
+    const unsub = jest.fn();
+    // Cache original functionality
+    const realUseState = React.useState;
 
-                expect(container.querySelector(".start")).toBeInTheDocument(); expect(container.querySelector(".stop")).not.toBeInTheDocument();
-              });
+    // Mock useState before rendering your component
+    jest.spyOn(React, "useState").mockImplementationOnce(() =>
+      realUseState({
+        subscribed: true,
+        timer: 0,
+        isIncorrectTimer: false
+      })
+    );
 
-            it("should show button to stop and hide to start if user subscribed on tracker", () => {
+    const { container, getByText } = render(
+      <ProductRow
+        product={testProduct}
+        handleSubscribeClick={sub}
+        handleUnsubscribeClick={unsub}
+      />
+    );
 
-                const sub = jest.fn();
-                const unsub = jest.fn();
-                // Cache original functionality
-                const realUseState = React.useState
-
-                // Stub the initial state
-                const stubInitialState = ['stub data']
-
-                // Mock useState before rendering your component
-                jest
-                  .spyOn(React, 'useState')
-                  .mockImplementationOnce(() => realUseState(stubInitialState))
-
-                const {
-                  container,
-                  getByText
-                } = render( < ProductRow product = {
-                    testProduct
-                  }
-                  handleSubscribeClick = {
-                    sub
-                  }
-                  handleUnsubscribeClick = {
-                    unsub
-                  }
-                  /> );
-
-                  expect(container.querySelector(".start")).not.toBeInTheDocument(); expect(container.querySelector(".stop")).toBeInTheDocument();
-                });
-            });
+    expect(container.querySelector(".start")).not.toBeInTheDocument();
+    expect(container.querySelector(".stop")).toBeInTheDocument();
+  });
+});

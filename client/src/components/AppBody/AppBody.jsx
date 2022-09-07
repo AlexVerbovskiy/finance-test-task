@@ -1,9 +1,10 @@
-import ProductTable from "../ProductTable";
 import { useState, useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useDispatch } from "react-redux";
 import { subscribeTickers, subscribeTicker } from "../../utils";
 import { useMainSubscription } from "../../hooks";
+import ProductTable from "../ProductTable";
+import Timer from "../Timer";
 
 const AppBody = () => {
   const [
@@ -64,9 +65,7 @@ const AppBody = () => {
 
   return (
     <div>
-      <button onClick={() => mainSubscribeClick()}>
-        {hasAnyMainSubscriber ? "Unsubscribe" : "Subscribe"}
-      </button>
+      {hasAnyMainSubscriber && <Timer />}
 
       {products.length > 0 &&
         <ProductTable
@@ -74,6 +73,17 @@ const AppBody = () => {
           handleUnsubscribeClick={productUnsubscribeClick}
           products={products.sort(comparatorSort)}
         />}
+
+      <div className="flex align-center justify-center">
+        <button
+          onClick={() => mainSubscribeClick()}
+          className="my-2 bg-white w-[60rem] hover:bg-gray-100 text-gray-800 font-semibold py-[1px] px-4 border border-gray-400 rounded shadow"
+        >
+          {hasAnyMainSubscriber
+            ? "Unsubscribe main timer"
+            : "Subscribe main timer"}
+        </button>
+      </div>
     </div>
   );
 };

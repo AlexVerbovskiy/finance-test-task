@@ -51,8 +51,8 @@ describe("renders a AppBody", () => {
     React.useState = jest.fn().mockReturnValue([true, () => {}]);
 
     const component = render(<AppBody />);
-    expect(component.queryByText("Unsubscribe")).toBeInTheDocument();
-    expect(component.queryByText("Subscribe")).not.toBeInTheDocument();
+    expect(component.queryByText("Unsubscribe main timer")).toBeInTheDocument();
+    expect(component.queryByText("Subscribe main timer")).not.toBeInTheDocument();
   });
 
   it("should build button to unsubscribe main timer if user subscribed on this event", () => {
@@ -66,8 +66,8 @@ describe("renders a AppBody", () => {
     React.useState = jest.fn().mockReturnValue([false, () => {}]);
 
     const component = render(<AppBody />);
-    expect(component.queryByText("Unsubscribe")).not.toBeInTheDocument();
-    expect(component.queryByText("Subscribe")).toBeInTheDocument();
+    expect(component.queryByText("Unsubscribe main timer")).not.toBeInTheDocument();
+    expect(component.queryByText("Subscribe main timer")).toBeInTheDocument();
   });
 
   it("should build product table if products length more than 0", () => {
